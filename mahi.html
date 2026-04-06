@@ -1,0 +1,250 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MAHI THAKKAR QUIZ</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#d82791,#fad0c4);
+}
+
+/* START */
+.start{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:#fff;
+text-align:center;
+}
+.start h1{font-size:45px;}
+.start button{
+padding:15px 40px;
+font-size:20px;
+border:none;
+border-radius:30px;
+background:#fff;
+color:#ff40c3;
+cursor:pointer;
+}
+
+/* QUIZ */
+.quiz{display:none;padding:20px;}
+.question{
+background:#fff;
+padding:15px;
+margin:15px 0;
+border-radius:15px;
+}
+
+/* BIG SUBMIT */
+.submitBtn{
+width:100%;
+padding:20px;
+font-size:22px;
+background:#e91ea9;
+color:white;
+border:none;
+border-radius:20px;
+}
+
+/* RESULT */
+.result{
+display:none;
+padding:20px;
+}
+.resultBox{
+ 
+background:#fff;
+padding:20px;
+border-radius:15px;
+}
+.correct{color:green;}
+.wrong{color:red;}
+</style>
+</head>
+
+<body>
+
+<div class="start" id="start">
+<h1>🎁 Special Gift For You 🎁</h1>
+<h2>From My Side</h2>
+<h1>💖 MAHI THAKKAR 💖</h1>
+<button onclick="startQuiz()">Continue</button>
+</div>
+
+<div class="quiz" id="quiz">
+<h2>Computer Test (80 Questions)</h2>
+<form id="form"></form>
+<button class="submitBtn" onclick="submitQuiz()">Submit</button>
+</div>
+
+<div class="result" id="result">
+<div class="resultBox" id="resultBox"></div>
+</div>
+
+<script>
+
+// ===== FULL 80 QUESTIONS =====
+const questions = [
+
+{q:"1) The term multimedia has been coined from which of the following terms.",o:["Mix, media","mid, mediate","multi, mediator","multiple, media"],a:3},
+{q:"2) Which of the following is an studio file compressed with windows media compression?",o:[".mid",".wav",".mp3",".wma"],a:3},
+{q:"3) Which of the following terms represent a classification of images?",o:["vector, raster","bitmap, raster","picture, clipart","graphics, picture"],a:0},
+{q:"4) Which of the following terms represent the most common image format used by digital cameras?",o:[".gif",".jpeg",".tif",".bmp"],a:1},
+{q:"5) Which of the following terms can Multimedia be classified?",o:["intelligent and non-intelligent","interactive and non-interactive multimedia","intuitive and non-intuitive","information and non-information"],a:1},
+
+{q:"6) The elements are organized as pages of a book or pile of cards in which of the following forms?",o:["card or page based tools","icon and even based tools","time based tools","animation tools"],a:0},
+{q:"7) Synfig Studio represents which of the following type of authoring tools?",o:["time based authoring tool","event based authoring tools","page based numbering tool","icon based authoring tool"],a:0},
+{q:"8) Which of the following is the file extension of a file created in synfig Studio?",o:[".fiz",".sifz",".zif",".fis"],a:1},
+{q:"9) Which of the following tools is used to create smooth transitions between two or more colours in an object?",o:["width","fill","linear","gradient"],a:3},
+{q:"10) Which of the following are two important parameter of circle tool?",o:["center, diameter","diameter, point","radius, diameter","center radius"],a:3},
+
+{q:"11) Which of the following terms represent the objects to be displayed over a period of time?",o:["frame","object","keyframe","panel"],a:0},
+{q:"12) Which of the following timings is default setting for the end time?",o:["2s","5s","3s","6s"],a:1},
+{q:"13) Which of the following represents an indicator used to represent waypoint?",o:["circle","square","rectangle","diamond"],a:3},
+{q:"14) Which of the following is correct entry in the timeslider?",o:["3f 9f","3s 9f","3f 9s","3s 9s"],a:3},
+{q:"15) Which of the following is the default setting for frames per second?",o:["15","30","24","28"],a:2},
+
+{q:"16) Which of the following is a type of layer?",o:["Timechar","Gradient","palette","Animate edit mode"],a:1},
+{q:"17) Which of the following is the default setting for blend method?",o:["composite","alpha over","straight","straight onto"],a:0},
+{q:"18) Which of the following feature is used to attach a vertex of an object to the vertex of a Bline?",o:["link to object","link to line","link to bline","object to link"],a:2},
+{q:"19) Which of the following terms represent grouping things together?",o:["cluster","inline","parameters","encapsulation"],a:3},
+{q:"20) Gradient, blur, distortion and filter are types of which of the following component?",o:["frames","layer","keyframe","panels"],a:1},
+
+{q:"21) Which of the following commands is used as a shortcut key to import image?",o:["CTRL + a","CTRL + m","CTRL + i","CTRL + n"],a:2},
+{q:"22) Which of the following amount value signifies that the layer is fully visible?",o:["1","0","2","-1"],a:0},
+{q:"23) Which of the following is a feature used to hide or reveal areas of a layer?",o:["tweening","masking","morphing","encapsulation"],a:1},
+{q:"24) The visibility of the images to handled by which of the following parameters?",o:["blend, amount","mask, amount","blend, input","mask, blend"],a:0},
+{q:"25) Timed swap property adds which of the following sub parameters?",o:["up, down, time, length","before, offer, size, shape","before, after, time, length","top, bottom, time, length"],a:2},
+
+{q:"26) Which of the following command is used to count the total number of lines, words, and characters contained in a file ?",o:["countw","wcount","wc","wordcount"],a:2},
+{q:"27) Which of the following command is used to remove files?",o:["dm","rm","delete","erase"],a:1},
+{q:"28) Which of the following command is used to remove the directory?",o:["rdir","remove","rd","rmdir"],a:3},
+{q:"29) Which of the following command is used to count just the number of the lines contained in a file?",o:["wc - r","wc - w","wc - c","wc - l"],a:3},
+{q:"30) Which of the following refers to the maximum length of a filename in Linux?",o:["8","10","200","255"],a:3},
+
+{q:"21) The hierarchy of a series of directories branching in a user system starts from which of the following directories?",o:["/home","\\root","/home","/root"],a:3},
+{q:"32) Which of the following command is used to copy a file?",o:["tar","cpio","cp","copy"],a:2},
+{q:"33) Which of the following command is used to display your current working directory ?",o:["path","pwd","prompt $p$g","dir"],a:1},
+{q:"34) Which of the following command is used for searching a pattern in a file ?",o:["grep","find","lookup","All of the above"],a:3},
+{q:"35) Which of the following is not a redirection symbol?",o:[">","<","* ",">>"],a:2},
+
+{q:"36) Which of the following syntax is correct to assign a read permission on a user file?",o:["chmod r filename","chmod u+r filename","chmod filename r","chmod filename u+r"],a:1},
+{q:"37) Which of the following refers to the minimum arguments of cp command?",o:["One","Two","Three","None"],a:1},
+
+{q:"38) In how many modes Vim editor works?",o:["One","Two","Three","Four"],a:2},
+{q:"39) Which of the following statement is true for Gedit?",o:["It is a Command line editor","It is a Graphical editor","It is not an editor","It is available with KDE Development environment"],a:1},
+{q:"40) :wq in Vim editor is used to which of the following activities?",o:["To save file and remain in editing mode","To save file and quit editing mode","To quit editing mode without saving changes made in the file","All of the above"],a:1},
+{q:"41) Which of the following keys is not used to go into insert mode of the Vim editor?",o:["o","i","a","cw"],a:3},
+{q:"42) Which of the following key are used to delete a line?",o:["ce","ge","dd","d$"],a:2},
+
+{q:"43) Which of the following statement is used to search for phrase in the file?",o:[":set is",":help cmd",":!cmd","/phrase<ENTER>"],a:3},
+{q:"44) Which of the following character is used for commenting a line in a shell script?",o:["*","%","$","#"],a:3},
+{q:"45) Which of the following symbol instruct a shell script to extract the value of a variable?",o:["*","%","$","#"],a:2},
+{q:"46) Shell scripts are commonly used by............",o:["operators","programmers","designer","accountants"],a:1},
+{q:"47) Which types of text editors available to serve the purpose of writing shell scripts.",o:["vi & vim","emacs , nano","pico, ed","All of these"],a:3},
+
+{q:"48) Which of the following command is used to set the file permission as executable?",o:["grep","chmod","ls","x"],a:1},
+{q:"49) Which of the following symbol is used to break the flow of control in the case statement?",o:["**",";;","++",">>"],a:1},
+{q:"50) Which of the following keyboard specifies the end of the case statement?",o:["end-case","end case","esac","stop-case"],a:2},
+{q:"51) Which loop iterates till the condition evaluates to true?",o:["while","utill","for","case"],a:0},
+{q:"52) Which of the following allows us to specify a list of values in its statement?",o:["while","utill","for","if"],a:2},
+
+{q:"53) In case structure, which of the following character denotes default case ?",o:["*","+","d","All of the above"],a:0},
+{q:"54) Which of the following statement is true for testing whether the file is read only or not?",o:["test –read filename","check –read filename","test –r filename","check –c filename"],a:2},
+{q:"55) Which of the following indicate the end of if condition in shell script?",o:["end-if","fi","}","It does not have any end statement"],a:1},
+{q:"56) Which of the following operator is used for less than compression in Linux?",o:["<","lessthan","lt","-lt"],a:3},
+
+{q:"57) DBMS Stand for",o:["Database Management System","Database Migration System","Data Management System","Direct Base Management System"],a:0},
+{q:"58) Which of the following is a term used for Raw facts or figures?",o:["Information","Variable","Data","Field"],a:2},
+{q:"59) Which of the following best describe customer in Database?",o:["Ralationship","attribute","Entity","Data"],a:2},
+{q:"60) Process data is known as",o:["Fact","Prepared data","Information","Decision"],a:2},
+{q:"61) Which one of the following is not a database?",o:["MySQL","Base","SQL Server","SpreadSheet"],a:3},
+
+{q:"62) Which of the following is not an Open source DBMS?",o:["MySQL","Ingresss","Basee","Oracle"],a:3},
+{q:"63) The alphabet R in RDBMS stands for which of the following?",o:["Rotational","Ralatonal","Random","Ring"],a:1},
+{q:"64) Which is the name of the database available as part of Open Office Suite?",o:["OfficeDB","Base","OpenDB","Access"],a:1},
+{q:"65) Which of the following is the default extension of Base Database file?",o:[".bdf",".odf",".odb",".dbf"],a:2},
+
+ 
+{q:"66) Which of the following represent maximum levels of sorting provided to Base Wizard?",o:["3","4","5","6"],a:0},
+{q:"67) Which of the following refers to data redundancy ?",o:["Deletion of data","Repetition of data","Decomposition of tables","Relationship of tables"],a:1},
+{q:"68) Which of the following type of relationship exists between Student and Teacher in a school?",o:["One to One","One to Many","Many to Many","No relationship exists"],a:2},
+{q:"69) Which of the following type of relationship exists between Student and Class Teacher in a school?",o:["One to One","One to Many","Many to Many","No relationship exists"],a:0},
+
+{q:"70) Which of the following options are possible to implement referential integrity?",o:["No Action","Set Null","Delete Table","Update Cascade"],a:3},
+{q:"71) Auto Value property can be set for field with which of the following datatype?",o:["Text","Image","Integer","Boolean"],a:2},
+{q:"72) Which of the following property is equivalent to NOT NULL?",o:["Length","Default","Required","Format"],a:2},
+
+{q:"73) The result of a select query is generally represented as which of the following component?",o:["Table","Query","Constraint","Relation"],a:0},
+{q:"74) Which of the following is used to group the result of a query?",o:["Order by","Group by","Arrange by","Set of"],a:1},
+{q:"75) Which delimiter is used to surround the text in a query criterion?",o:["\"","'","$","#"],a:1},
+{q:"76) Which of the following operator is used with wild card character?",o:["Like","is","equal","="],a:0},
+{q:"77) Which of the following operator is used as wild card character in Base?",o:["&","+","-","*"],a:3},
+
+{q:"78) For what main purpose a form a designed?",o:["To display data","To enter data","To create Table","To view query result"],a:1},
+{q:"79) For what main purpose a repot a designed?",o:["To view information in professional manner","To enter data","To create tables","To get statistics of usage of records"],a:0},
+{q:"80) Which of the following Form wizard allows creating data entry forms for which of the following?",o:["Report","Table","Query","Both b and c"],a:3},
+
+];
+
+// ===== START =====
+function startQuiz(){
+document.getElementById("start").style.display="none";
+document.getElementById("quiz").style.display="block";
+
+let form=document.getElementById("form");
+
+questions.forEach((q,i)=>{
+let div=document.createElement("div");
+div.className="question";
+
+let html=`<p><b>${q.q}</b></p>`;
+q.o.forEach((opt,j)=>{
+html+=`<input type="radio" name="q${i}" value="${j}"> ${opt}<br>`;
+});
+
+div.innerHTML=html;
+form.appendChild(div);
+});
+}
+
+// ===== RESULT =====
+function submitQuiz(){
+let correct=0,wrong=0;
+let html="<h2>🎯 Result</h2>";
+
+questions.forEach((q,i)=>{
+let sel=document.querySelector(`input[name=q${i}]:checked`);
+
+if(sel){
+if(parseInt(sel.value)==q.a){
+correct++;
+html+=`<p class="correct">${q.q}<br>✔ Your Answer: ${q.o[sel.value]}</p>`;
+}else{
+wrong++;
+html+=`<p class="wrong">${q.q}<br>❌ Your: ${q.o[sel.value]} | ✔ Correct: ${q.o[q.a]}</p>`;
+}
+}else{
+wrong++;
+html+=`<p class="wrong">${q.q}<br>❌ Not Attempted | ✔ ${q.o[q.a]}</p>`;
+}
+});
+
+html+=`<h2>Score: ${Math.round((correct/questions.length)*100)}%</h2>`;
+html+=`<h3>Correct: ${correct} | Wrong: ${wrong}</h3>`;
+
+document.getElementById("quiz").style.display="none";
+document.getElementById("result").style.display="block";
+document.getElementById("resultBox").innerHTML=html;
+}
+
+</script>
+
+</body>
+</html>
